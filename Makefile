@@ -5,7 +5,8 @@ LIBDIR = ./libft/
 OBJDIR = ./objs/
 INCDIR = ./includes/
 MLXDIR = ./minilibx/
-SRCFILES =	main.c
+SRCFILES =	main.c \
+			fractals.c
 
 OBJFILES =	$(SRCFILES:.c=.o)
 SRCS        = $(addprefix $(SRCDIR), $(SRCFILES))

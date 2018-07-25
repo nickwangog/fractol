@@ -6,7 +6,7 @@
 /*   By: nwang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/26 12:25:11 by nwang             #+#    #+#             */
-/*   Updated: 2018/06/01 16:33:17 by nwang            ###   ########.fr       */
+/*   Updated: 2018/07/21 13:56:19 by nwang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,29 @@
 
 void	frac_error(void)
 {
-	ft_putstr("Usage: ./fractol <fractal name>.\n");
+	ft_putstr("Usg: ./fractol <fractal name>.\n");
 	ft_putstr("Fractals: Julia, Mandelbrot, TEMP, TEMP\n");
 	ft_putstr("Controls: TEMP\n");
 	exit(1);
 }
-
-void	which_frac(char *s)
+void	init_frac(t_frac *frac, char *s)
 {
-	if (!ft_strcmp(argv[1], "julia") || !ft_strcmp(argv[1], "Julia"))
-			//julia
-	else if (!ft_strcmp(argv[1], "mandelbrot") || !ft_strcmp(argv[1], "Mandelbrot"))
-			//mandelbrot
-	else if if (!ft_strcmp(argv[1], "bonus") || !ft_strcmp(argv[1], "Bonus"))
-			//bonus
+	frac->mlx.init = mlx_init();
+	frac->mlx.win = mlx_new_window(frac->mlx.init, WINWID,
+		WINHGT, s);
+	frac->mlx.img = mlx_new_image(frac->mlx.init, WINWID, WINHGT);
+	frac->img.data = mlx_get_data_addr(frac->mlx.img,
+		&frac->img.bpp, &frac->img.size, &frac->img.end);
+}
+
+void	which_frac(t_frac *frac, char *s)
+{
+	if (!ft_strcmp(s, "julia") || !ft_strcmp(s, "Julia"))
+		run_julia(frac, s);
+	else if (!ft_strcmp(s, "mandelbrot") || !ft_strcmp(s, "Mandelbrot"))
+		run_mandelbrot(frac, s);
+	// else if if (!ft_strcmp(s, "bonus") || !ft_strcmp(s, "Bonus"))
+	// 		run_jula(frac);
 	else
 		frac_error();
 }
@@ -38,16 +47,7 @@ int		main(int argc, char **argv)
 
 	ft_bzero(&frac, sizeof(t_frac));
 	if (argc == 2)
-	{
-		frac->mlx.init = mlx_init();
-		frac->mlx.win = mlx_new_window(frac->mlx.init, WINWID, \
-			WHGT, argv[1]);
-		frac->mlx.img = mlx_new_image(frac->mlx.init, WINWID, WHGT);
-		frac->image.data = mlx_get_data_addr(frac->mlx.img, \
-			&frac->image.bpp, &frac->image.size, &frac->image.endian);
-		which_fractal(argv[1];)
-		
-	}
+		which_frac(&frac, argv[1]);
 	else
 		frac_error();
 	return (0);
