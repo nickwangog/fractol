@@ -6,7 +6,8 @@ OBJDIR = ./objs/
 INCDIR = ./includes/
 MLXDIR = ./minilibx/
 SRCFILES =	main.c \
-			fractals.c
+			fractals.c \
+			image.c
 
 OBJFILES =	$(SRCFILES:.c=.o)
 SRCS        = $(addprefix $(SRCDIR), $(SRCFILES))

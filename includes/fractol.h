@@ -77,11 +77,20 @@ typedef struct  	s_frac
 	t_img   		img;
 	t_color 		color;
 	t_map   		map;
-	char			*fracname;
+	// char			*fracname;
+	int				id;
 }                   t_frac;
 
-void        		run_julia(t_frac *frac, char *s);
-void        		run_mandelbrot(t_frac *frac, char *s);
+typedef struct		s_thread
+{
+	t_frac			*frac;
+	int				i;
+}
+					t_thread;
+
+void        		draw_julia(t_frac *frac, int y);
+void        		draw_mandelbrot(t_frac *frac, int y);
 void				init_frac(t_frac *frac, char *s);
+int					create_frac(t_frac *frac);
 
 #endif

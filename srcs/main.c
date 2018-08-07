@@ -24,21 +24,20 @@ void	init_frac(t_frac *frac, char *s)
 	frac->mlx.init = mlx_init();
 	frac->mlx.win = mlx_new_window(frac->mlx.init, WINWID,
 		WINHGT, s);
-	frac->mlx.img = mlx_new_image(frac->mlx.init, WINWID, WINHGT);
-	frac->img.data = mlx_get_data_addr(frac->mlx.img,
-		&frac->img.bpp, &frac->img.size, &frac->img.end);
 }
 
-void	which_frac(t_frac *frac, char *s)
+int		which_frac(t_frac *frac, char *s)
 {
 	if (!ft_strcmp(s, "julia") || !ft_strcmp(s, "Julia"))
-		run_julia(frac, s);
+		frac->id = 1;
 	else if (!ft_strcmp(s, "mandelbrot") || !ft_strcmp(s, "Mandelbrot"))
-		run_mandelbrot(frac, s);
+		frac->id = 2;
 	// else if if (!ft_strcmp(s, "bonus") || !ft_strcmp(s, "Bonus"))
 	// 		run_jula(frac);
 	else
-		frac_error();
+		return (0);
+	return (1);
+	
 }
 
 int		main(int argc, char **argv)
@@ -46,8 +45,13 @@ int		main(int argc, char **argv)
 	t_frac	frac;
 
 	ft_bzero(&frac, sizeof(t_frac));
-	if (argc == 2)
-		which_frac(&frac, argv[1]);
+	if (argc == 2 && (which_frac(&frac, argv[1])))
+	{
+		init_frac(&frac, argv[1]);
+    	create_frac(&frac);
+		// init_hooks(view);
+		mlx_loop(frac.mlx.init);
+	}
 	else
 		frac_error();
 	return (0);
